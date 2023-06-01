@@ -26,9 +26,15 @@ class Player:
                                                  (self.sliced_points[i][0] - self.sliced_points[i + 1][0])).inflate(
                     self.INFLATE_SCALE, self.INFLATE_SCALE))
 
+    def hits(self, fruit):
+        for hitbox in self.hitboxes:
+            if hitbox.colliderect(fruit.get_rect()):
+                return True
+        return False
+
     def draw(self, surf):
         for hitbox in self.hitboxes:
-            pygame.draw.rect(surf, GREEN, hitbox)
+            pygame.draw.rect(surf, RED, hitbox)
         # for pos, time in self.sliced_points:
         #     pygame.draw.circle(surf, RED, pos, 10)
         # if len(self.sliced_points) > 1:

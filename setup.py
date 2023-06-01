@@ -1,4 +1,5 @@
 import pygame
+import random
 
 pygame.init()
 WIDTH, HEIGHT = 800, 500
@@ -17,3 +18,7 @@ BLUE = (0, 0, 255)
 # commands
 COMMAND_EXIT = 0
 COMMAND_START = 1
+
+
+def lerp(start, end, weight):
+    return weight * (end - start) + start
