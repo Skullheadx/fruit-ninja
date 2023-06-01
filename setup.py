@@ -1,6 +1,5 @@
 import pygame
 
-
 pygame.init()
 WIDTH, HEIGHT = 800, 500
 
@@ -12,6 +11,8 @@ pygame.display.set_caption("Fruit Ninja")
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
 
 # commands
 COMMAND_EXIT = 0

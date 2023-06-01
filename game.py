@@ -1,6 +1,7 @@
 from setup import *
 from player import Player
 
+
 class Game:
 
     def __init__(self):
