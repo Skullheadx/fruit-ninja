@@ -11,3 +11,7 @@ pygame.display.set_caption("Fruit Ninja")
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
+
+# commands
+COMMAND_EXIT = 0
+COMMAND_START = 1

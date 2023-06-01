@@ -1,15 +1,20 @@
 from setup import *
+from game import Game
 
 
 FPS = 120
 clock = pygame.time.Clock()
 
+scene = Game()
+
 is_running = True
 while is_running:
-    clock.tick(FPS)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            is_running = False
-    screen.fill(WHITE)
+    delta = clock.tick(FPS)
+    status = scene.update(delta)
+    scene.draw(screen)
     pygame.display.update()
+
+    if status == COMMAND_EXIT:
+        is_running = False
+
 pygame.quit()
