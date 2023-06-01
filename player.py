@@ -19,8 +19,8 @@ class Player:
             if pygame.time.get_ticks() - time > self.LIFE_TIME:
                 self.sliced_points.pop(i)
                 break
+        self.hitboxes.clear()
         if len(self.sliced_points) > 1:
-            self.hitboxes.clear()
             for i in range(len(self.sliced_points) - 1):
                 self.hitboxes.append(pygame.Rect(self.sliced_points[i][0],
                                                  (self.sliced_points[i][0] - self.sliced_points[i + 1][0])).inflate(
@@ -33,9 +33,9 @@ class Player:
         return False
 
     def draw(self, surf):
-        for hitbox in self.hitboxes:
-            pygame.draw.rect(surf, RED, hitbox)
+        # for hitbox in self.hitboxes:
+        #     pygame.draw.rect(surf, RED, hitbox)
         # for pos, time in self.sliced_points:
         #     pygame.draw.circle(surf, RED, pos, 10)
-        # if len(self.sliced_points) > 1:
-        #     pygame.draw.lines(surf, BLACK, False, [a for a, b in self.sliced_points], 3)
+        if len(self.sliced_points) > 1:
+            pygame.draw.lines(surf, BLACK, False, [a for a, b in self.sliced_points], 3)
