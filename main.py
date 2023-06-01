@@ -15,5 +15,8 @@ while is_running:
 
     if status == COMMAND_EXIT:
         is_running = False
+    elif status == COMMAND_START:
+        scene = Game()
+
 
 pygame.quit()
