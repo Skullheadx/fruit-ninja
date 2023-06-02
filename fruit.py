@@ -28,6 +28,8 @@ class Fruit:
             lerp(self.VERTICAL_SPAWN_RANGE[0], self.VERTICAL_SPAWN_RANGE[1], random.random()))
         self.acceleration = pygame.Vector2(0, self.GRAVITY)
 
+        # self.previous_position = self.position
+
         dy = self.target.y - self.position.y
         dx = self.target.x - self.position.x
         t = (-2 / self.GRAVITY * dy) ** 0.5
@@ -36,6 +38,7 @@ class Fruit:
         self.color = random.choice(self.COLORS)
 
     def update(self, delta):
+        # self.previous_position = self.position.copy() - self.velocity / 1000 * 30
         self.velocity += self.acceleration * delta / 1000
         self.position += self.velocity * delta / 1000
 
@@ -44,7 +47,10 @@ class Fruit:
                            pygame.Vector2(self.radius, self.radius))
 
     def draw(self, surf):
+        # pygame.draw.circle(surf, DARK_GRAY, self.previous_position, self.radius)
+
         pygame.draw.circle(surf, self.color, self.position, self.radius)
         pygame.draw.circle(surf, DARKEN[self.color], self.position, self.radius, self.OUTLINE_WIDTH)
+
 
         # pygame.draw.circle(surf, BLACK, self.target, 10)
