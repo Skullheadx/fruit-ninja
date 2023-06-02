@@ -2,9 +2,9 @@ import pygame
 import random
 
 pygame.init()
-WIDTH, HEIGHT = 800, 500
+WIDTH, HEIGHT = pygame.display.Info().current_w, pygame.display.Info().current_h
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 
 pygame.display.set_caption("Fruit Ninja")
 

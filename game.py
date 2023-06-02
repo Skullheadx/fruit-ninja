@@ -5,7 +5,7 @@ from bomb import Bomb
 
 
 class Game:
-    BOMB_CHANCE = 0.5
+    BOMB_CHANCE = 0.1
 
     def __init__(self):
         self.player = Player()
@@ -17,6 +17,9 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return COMMAND_EXIT
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_ESCAPE:
+                    return COMMAND_EXIT
         self.player.update(delta)
         hits = []
         for fruit in self.fruits:
@@ -24,7 +27,7 @@ class Game:
             if self.player.hits(fruit):
                 hits.append(fruit)
             fr = fruit.get_rect()
-            if (not -fruit.radius <= fr.x < WIDTH) or fr.y > HEIGHT:
+            if (not -fruit.radius < fr.x < WIDTH + fruit.radius) or fr.y > HEIGHT:
                 self.fruits.remove(fruit)
 
         for hit in hits:
@@ -35,7 +38,7 @@ class Game:
             if self.player.hits(bomb):
                 return COMMAND_START
             br = bomb.get_rect()
-            if (not -bomb.RADIUS <= br.x < WIDTH) or br.y > HEIGHT:
+            if (not -bomb.RADIUS < br.x < WIDTH + bomb.RADIUS) or br.y > HEIGHT:
                 self.bombs.remove(bomb)
 
         if len(self.fruits) == 0 and len(self.bombs) == 0:
