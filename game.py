@@ -2,15 +2,18 @@ from setup import *
 from player import Player
 from fruit import Fruit
 from bomb import Bomb
+from effect import Effect
 
 
 class Game:
     BOMB_CHANCE = 0.1
+    EFFECT_COUNT_PER_FRUIT = 10
 
     def __init__(self):
         self.player = Player()
         self.fruits = [Fruit()]
         self.bombs = []
+        self.effects = []
         self.wave = 1
 
     def update(self, delta):
@@ -31,7 +34,14 @@ class Game:
                 self.fruits.remove(fruit)
 
         for hit in hits:
+            for i in range(self.EFFECT_COUNT_PER_FRUIT):
+                self.effects.append(Effect(hit.position, hit.radius, fruit.color))
             self.fruits.remove(hit)
+
+        for effect in self.effects:
+            effect_status = effect.update(delta)
+            if effect_status:
+                self.effects.remove(effect)
 
         for bomb in self.bombs:
             bomb.update(delta)
@@ -50,7 +60,9 @@ class Game:
                     self.fruits.append(Fruit())
 
     def draw(self, surf):
-        screen.fill(WHITE)
+        screen.fill(BROWN)
+        for effect in self.effects:
+            effect.draw(surf)
         for fruit in self.fruits:
             fruit.draw(surf)
         for bomb in self.bombs:
