@@ -10,17 +10,20 @@ class Game:
     BOMB_CHANCE = 0.1
     EFFECT_COUNT_PER_FRUIT = 20
     COMBO_TIME = 250
-
+    GAME_OVER_TIME = 1000
     def __init__(self):
         self.player = Player()
         self.fruits = [Fruit()]
         self.bombs = []
         self.effects = []
         self.combo_counters = []
-        self.wave = 1
+        self.wave = 100
         self.score = 0
         self.time_since_last_hit = 0
         self.current_combo = 0
+
+        self.game_over = False
+        self.game_over_time = 0
 
     def update(self, delta):
         for event in pygame.event.get():
@@ -29,7 +32,13 @@ class Game:
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
                     return COMMAND_EXIT
-        self.player.update(delta)
+
+        if not self.game_over:
+            self.player.update(delta)
+        else:
+            self.game_over_time += delta
+            if self.game_over_time > self.GAME_OVER_TIME:
+                return COMMAND_START
         hits = []
         for fruit in self.fruits:
             fruit.update(delta)
@@ -70,7 +79,9 @@ class Game:
         for bomb in self.bombs:
             bomb.update(delta)
             if self.player.hits(bomb):
-                return COMMAND_START
+                bomb.explode(self.fruits, self.bombs)
+                self.game_over = True
+                self.player.sliced_points.clear()
             br = bomb.get_rect()
             if ((not -bomb.RADIUS < br.x < WIDTH + bomb.RADIUS) or br.y > HEIGHT) and bomb.velocity.y > 0:
                 self.bombs.remove(bomb)
@@ -87,10 +98,10 @@ class Game:
         screen.fill(BROWN)
         for effect in self.effects:
             effect.draw(surf)
-        for fruit in self.fruits:
-            fruit.draw(surf)
         for bomb in self.bombs:
             bomb.draw(surf)
+        for fruit in self.fruits:
+            fruit.draw(surf)
         for combo in self.combo_counters:
             combo.draw(surf)
         self.player.draw(surf)

@@ -37,10 +37,15 @@ LIGHTEN = {RED: ORANGE, ORANGE: YELLOW, YELLOW: GREEN, GREEN: BLUE, BLUE: PURPLE
 # commands
 COMMAND_EXIT = 0
 COMMAND_START = 1
+COMMAND_GAME_OVER = 2
 
 
 def lerp(start, end, weight):
     return weight * (end - start) + start
+
+
+def clamp(value, minimum, maximum):
+    return min(maximum, max(minimum, value))
 
 
 font = pygame.font.SysFont("Arial", 50)
