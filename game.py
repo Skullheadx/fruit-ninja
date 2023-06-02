@@ -1,9 +1,9 @@
-from setup import *
-from player import Player
-from fruit import Fruit
 from bomb import Bomb
-from effect import Effect
 from combo_counter import ComboCounter
+from effect import Effect
+from fruit import Fruit
+from player import Player
+from setup import *
 
 
 class Game:
@@ -11,13 +11,14 @@ class Game:
     EFFECT_COUNT_PER_FRUIT = 20
     COMBO_TIME = 250
     GAME_OVER_TIME = 1000
+
     def __init__(self):
         self.player = Player()
         self.fruits = [Fruit()]
         self.bombs = []
         self.effects = []
         self.combo_counters = []
-        self.wave = 100
+        self.wave = 1
         self.score = 0
         self.time_since_last_hit = 0
         self.current_combo = 0
@@ -62,7 +63,7 @@ class Game:
             if self.time_since_last_hit < self.COMBO_TIME:
                 self.current_combo += 1
                 if self.current_combo > 1:
-                    self.combo_counters.append(ComboCounter(hit.position, f"x{self.current_combo+1}"))
+                    self.combo_counters.append(ComboCounter(hit.position, f"x{self.current_combo + 1}"))
 
             self.time_since_last_hit = 0
 

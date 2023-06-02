@@ -1,5 +1,5 @@
-from setup import *
 from fruit import Fruit
+from setup import *
 
 
 class Bomb(Fruit):
@@ -25,8 +25,6 @@ class Bomb(Fruit):
         self.velocity = pygame.Vector2(0, 0)
         self.acceleration = pygame.Vector2(0, 0)
 
-
-
         for fruit in fruits:
             fruit.velocity += (fruit.position - self.position).normalize() * self.POWER
         for bomb in bombs:
@@ -35,7 +33,9 @@ class Bomb(Fruit):
 
     def draw(self, surf):
         if self.exploded:
-            pygame.draw.circle(surf, DARK_RED, self.position, clamp(self.RADIUS + self.exploded_time / 1000 * 100, 0, 300))
-            pygame.draw.circle(surf, BLACK, self.position, clamp(self.RADIUS + self.exploded_time / 1000 * 100, 0, 300), self.OUTLINE_WIDTH)
+            pygame.draw.circle(surf, DARK_RED, self.position,
+                               clamp(self.RADIUS + self.exploded_time / 1000 * 100, 0, 300))
+            pygame.draw.circle(surf, BLACK, self.position, clamp(self.RADIUS + self.exploded_time / 1000 * 100, 0, 300),
+                               self.OUTLINE_WIDTH)
         else:
             pygame.draw.circle(surf, BLACK, self.position, self.RADIUS)
