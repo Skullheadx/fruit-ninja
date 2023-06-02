@@ -8,6 +8,7 @@ from effect import Effect
 class Game:
     BOMB_CHANCE = 0.1
     EFFECT_COUNT_PER_FRUIT = 20
+    COMBO_TIME = 250
 
     def __init__(self):
         self.player = Player()
@@ -16,7 +17,7 @@ class Game:
         self.effects = []
         self.wave = 1
         self.score = 0
-
+        self.time_since_last_hit = 0
 
     def update(self, delta):
         for event in pygame.event.get():
@@ -34,13 +35,16 @@ class Game:
             fr = fruit.get_rect()
             if ((not -fruit.radius < fr.x < WIDTH + fruit.radius) or fr.y > HEIGHT) and fruit.velocity.y > 0:
                 self.fruits.remove(fruit)
-
+        self.time_since_last_hit += delta
         for hit in hits:
             for i in range(self.EFFECT_COUNT_PER_FRUIT):
                 self.effects.append(Effect(hit.position, hit.radius, hit.color))
             if hit in self.fruits:
                 self.fruits.remove(hit)
             self.score += 1
+            self.time_since_last_hit = 0
+        if self.time_since_last_hit < self.COMBO_TIME:
+            self.score += len(hits)
 
         for effect in self.effects:
             effect_status = effect.update(delta)
