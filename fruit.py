@@ -2,13 +2,13 @@ from setup import *
 
 
 class Fruit:
-    RADIUS_RANGE = [35 ,65]#[25, 50]
+    RADIUS_RANGE = [35, 65]  # [25, 50]
 
     HORIZONTAL_SPAWN_RANGE = [max(RADIUS_RANGE), WIDTH - max(RADIUS_RANGE)]
     VERTICAL_SPAWN_RANGE = [HEIGHT + max(RADIUS_RANGE), HEIGHT * 2 + max(RADIUS_RANGE)]
 
     VERTICAL_TARGET_RANGE = [max(RADIUS_RANGE), HEIGHT * 4 / 5]
-    HORIZONTAL_TARGET_RANGE = [WIDTH / 6, WIDTH * 5/6]
+    HORIZONTAL_TARGET_RANGE = [WIDTH / 6, WIDTH * 5 / 6]
 
     GRAVITY = 275
 
@@ -49,6 +49,5 @@ class Fruit:
 
         pygame.draw.circle(surf, self.color, self.position, self.radius)
         pygame.draw.circle(surf, DARKEN[self.color], self.position, self.radius, self.OUTLINE_WIDTH)
-
 
         # pygame.draw.circle(surf, BLACK, self.target, 10)
