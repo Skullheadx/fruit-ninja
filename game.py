@@ -30,12 +30,12 @@ class Game:
             if self.player.hits(fruit):
                 hits.append(fruit)
             fr = fruit.get_rect()
-            if (not -fruit.radius < fr.x < WIDTH + fruit.radius) or fr.y > HEIGHT:
+            if ((not -fruit.radius < fr.x < WIDTH + fruit.radius) or fr.y > HEIGHT) and fruit.velocity.y > 0:
                 self.fruits.remove(fruit)
 
         for hit in hits:
             for i in range(self.EFFECT_COUNT_PER_FRUIT):
-                self.effects.append(Effect(hit.position, hit.radius, fruit.color))
+                self.effects.append(Effect(hit.position, hit.radius, hit.color))
             self.fruits.remove(hit)
 
         for effect in self.effects:
@@ -48,7 +48,7 @@ class Game:
             if self.player.hits(bomb):
                 return COMMAND_START
             br = bomb.get_rect()
-            if (not -bomb.RADIUS < br.x < WIDTH + bomb.RADIUS) or br.y > HEIGHT:
+            if ((not -bomb.RADIUS < br.x < WIDTH + bomb.RADIUS) or br.y > HEIGHT) and bomb.velocity.y > 0:
                 self.bombs.remove(bomb)
 
         if len(self.fruits) == 0 and len(self.bombs) == 0:
