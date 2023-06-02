@@ -38,7 +38,7 @@ class Game:
             if (not -bomb.RADIUS <= br.x < WIDTH) or br.y > HEIGHT:
                 self.bombs.remove(bomb)
 
-        if len(self.fruits) == 0:
+        if len(self.fruits) == 0 and len(self.bombs) == 0:
             self.wave += 1
             for i in range(self.wave):
                 if random.random() < self.BOMB_CHANCE:
