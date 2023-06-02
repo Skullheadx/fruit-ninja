@@ -6,10 +6,10 @@ class ComboCounter:
 
     def __init__(self, position, combo):
         self.position = pygame.Vector2(position)
-        self.velocity = pygame.Vector2(0, -1)
+        self.velocity = pygame.Vector2(0, -100)
         self.time = self.LIFE_TIME
         self.combo = combo
-        self.text_surface = font.render(self.combo, True, BLACK)
+        self.text_surface = font_large.render(self.combo, True, BLACK)
 
     def update(self, delta):
         self.position += self.velocity * delta / 1000

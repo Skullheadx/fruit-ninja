@@ -52,7 +52,8 @@ class Game:
             self.score += 1
             if self.time_since_last_hit < self.COMBO_TIME:
                 self.current_combo += 1
-                self.combo_counters.append(ComboCounter(hit.position, str(self.current_combo)))
+                if self.current_combo > 1:
+                    self.combo_counters.append(ComboCounter(hit.position, f"x{self.current_combo+1}"))
 
             self.time_since_last_hit = 0
 

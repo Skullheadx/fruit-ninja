@@ -44,3 +44,4 @@ def lerp(start, end, weight):
 
 
 font = pygame.font.SysFont("Arial", 50)
+font_large = pygame.font.SysFont("Arial", 80)
