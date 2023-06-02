@@ -6,29 +6,32 @@ from setup import *
 class Fruit:
     RADIUS_RANGE = [25, 50]
 
-    HORIZONTAL_SPAWN_RANGE = [WIDTH / 5, WIDTH * 4 / 5]
-    VERTICAL_SPAWN_RANGE = [HEIGHT + max(RADIUS_RANGE), HEIGHT*2 + max(RADIUS_RANGE) ]
+    HORIZONTAL_SPAWN_RANGE = [max(RADIUS_RANGE), WIDTH - max(RADIUS_RANGE)]
+    VERTICAL_SPAWN_RANGE = [HEIGHT + max(RADIUS_RANGE), HEIGHT * 2 + max(RADIUS_RANGE)]
 
-    VERTICAL_TARGET_RANGE = [HEIGHT / 5, HEIGHT * 2/3]
-    HORIZONTAL_TARGET_RANGE = [WIDTH / 5, WIDTH * 4 / 5]
+    VERTICAL_TARGET_RANGE = [max(RADIUS_RANGE), HEIGHT * 4 / 5]
+    HORIZONTAL_TARGET_RANGE = [max(RADIUS_RANGE), WIDTH - max(RADIUS_RANGE)]
 
     GRAVITY = 275
 
     COLORS = [RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE]
-    OUTLINE_WIDTH =3
+    OUTLINE_WIDTH = 3
+
     def __init__(self):
         self.radius = lerp(self.RADIUS_RANGE[0], self.RADIUS_RANGE[1], random.random())
 
-        self.target = pygame.Vector2(lerp(self.HORIZONTAL_TARGET_RANGE[0], self.HORIZONTAL_TARGET_RANGE[1], random.random()),lerp(self.VERTICAL_TARGET_RANGE[0], self.VERTICAL_TARGET_RANGE[1], random.random()))
-        self.position = pygame.Vector2(lerp(self.HORIZONTAL_SPAWN_RANGE[0], self.HORIZONTAL_SPAWN_RANGE[1], random.random()),
-                                       lerp(self.VERTICAL_SPAWN_RANGE[0], self.VERTICAL_SPAWN_RANGE[1], random.random()))
+        self.target = pygame.Vector2(
+            lerp(self.HORIZONTAL_TARGET_RANGE[0], self.HORIZONTAL_TARGET_RANGE[1], random.random()),
+            lerp(self.VERTICAL_TARGET_RANGE[0], self.VERTICAL_TARGET_RANGE[1], random.random()))
+        self.position = pygame.Vector2(
+            lerp(self.HORIZONTAL_SPAWN_RANGE[0], self.HORIZONTAL_SPAWN_RANGE[1], random.random()),
+            lerp(self.VERTICAL_SPAWN_RANGE[0], self.VERTICAL_SPAWN_RANGE[1], random.random()))
         self.acceleration = pygame.Vector2(0, self.GRAVITY)
 
-
-        dy = self.target.y-self.position.y
-        dx = self.target.x-self.position.x
-        t = (-2 / self.GRAVITY * dy)**0.5
-        self.velocity = pygame.Vector2(dx/t, -(-2 * self.GRAVITY * dy)**0.5)
+        dy = self.target.y - self.position.y
+        dx = self.target.x - self.position.x
+        t = (-2 / self.GRAVITY * dy) ** 0.5
+        self.velocity = pygame.Vector2(dx / t, -(-2 * self.GRAVITY * dy) ** 0.5)
 
         self.color = random.choice(self.COLORS)
 

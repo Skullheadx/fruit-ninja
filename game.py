@@ -36,7 +36,8 @@ class Game:
         for hit in hits:
             for i in range(self.EFFECT_COUNT_PER_FRUIT):
                 self.effects.append(Effect(hit.position, hit.radius, hit.color))
-            self.fruits.remove(hit)
+            if hit in self.fruits:
+                self.fruits.remove(hit)
 
         for effect in self.effects:
             effect_status = effect.update(delta)

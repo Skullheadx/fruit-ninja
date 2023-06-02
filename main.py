@@ -18,5 +18,4 @@ while is_running:
     elif status == COMMAND_START:
         scene = Game()
 
-
 pygame.quit()

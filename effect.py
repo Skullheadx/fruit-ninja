@@ -11,7 +11,7 @@ class Effect:
     def __init__(self, position, radius, color):
         self.position = pygame.Vector2(position)
         self.velocity = pygame.Vector2(random.random() - 0.5, random.random() - 0.5).normalize() * lerp(
-            self.SPEED_RANGE[0],self.SPEED_RANGE[1],random.random())
+            self.SPEED_RANGE[0], self.SPEED_RANGE[1], random.random())
         self.radius = radius * lerp(self.RADIUS_RANGE[0], self.RADIUS_RANGE[1], random.random())
         self.time = self.LIFE_TIME
         self.color = DARKEN[color]
