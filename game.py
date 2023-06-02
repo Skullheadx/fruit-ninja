@@ -6,15 +6,16 @@ from effect import Effect
 
 
 class Game:
-    BOMB_CHANCE = 0.1
-    EFFECT_COUNT_PER_FRUIT = 10
+    BOMB_CHANCE = 0
+    EFFECT_COUNT_PER_FRUIT = 50
 
     def __init__(self):
         self.player = Player()
         self.fruits = [Fruit()]
         self.bombs = []
         self.effects = []
-        self.wave = 1
+        self.wave = 100
+
 
     def update(self, delta):
         for event in pygame.event.get():
@@ -53,7 +54,7 @@ class Game:
                 self.bombs.remove(bomb)
 
         if len(self.fruits) == 0 and len(self.bombs) == 0:
-            self.wave += 1
+            self.wave += 50
             for i in range(self.wave):
                 if random.random() < self.BOMB_CHANCE:
                     self.bombs.append(Bomb())
