@@ -38,3 +38,6 @@ COMMAND_START = 1
 
 def lerp(start, end, weight):
     return weight * (end - start) + start
+
+
+font = pygame.font.SysFont("Arial", 50)

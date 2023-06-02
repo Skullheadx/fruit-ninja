@@ -4,7 +4,7 @@ from setup import *
 
 
 class Fruit:
-    RADIUS_RANGE = [10,25]#[25, 50]
+    RADIUS_RANGE = [35 ,65]#[25, 50]
 
     HORIZONTAL_SPAWN_RANGE = [max(RADIUS_RANGE), WIDTH - max(RADIUS_RANGE)]
     VERTICAL_SPAWN_RANGE = [HEIGHT + max(RADIUS_RANGE), HEIGHT * 2 + max(RADIUS_RANGE)]

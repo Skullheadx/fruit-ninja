@@ -2,8 +2,8 @@ from setup import *
 
 
 class Effect:
-    LIFE_TIME = 1000
-    SPEED_RANGE = [550, 650]
+    LIFE_TIME = 750
+    SPEED_RANGE = [250, 350]
     RADIUS_RANGE = [0.25, 0.75]
 
     OUTLINE_WIDTH = 1
