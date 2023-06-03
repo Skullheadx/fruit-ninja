@@ -1,5 +1,5 @@
-from setup import *
 from game import Game
+from setup import *
 
 FPS = 120
 clock = pygame.time.Clock()

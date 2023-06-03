@@ -19,7 +19,7 @@ class Bomb(Fruit):
         if self.exploded:
             self.exploded_time += delta ** 2
 
-    def explode(self, fruits, bombs):
+    def explode(self, fruits, bombs, effects):
         if self in bombs:
             self.exploded = True
         self.velocity = pygame.Vector2(0, 0)
@@ -27,9 +27,11 @@ class Bomb(Fruit):
 
         for fruit in fruits:
             fruit.velocity += (fruit.position - self.position).normalize() * self.POWER
+        for effect in effects:
+            effect.velocity += (effect.position - self.position).normalize() * self.POWER
         for bomb in bombs:
             if not bomb.exploded:
-                bomb.explode(fruits, bombs)
+                bomb.explode(fruits, bombs, effects)
 
     def draw(self, surf):
         if self.exploded:

@@ -9,8 +9,9 @@ from setup import *
 class Game:
     BOMB_CHANCE = 0.1
     EFFECT_COUNT_PER_FRUIT = 20
+    EFFECT_COUNT_PER_BOMB = 0
     COMBO_TIME = 250
-    GAME_OVER_TIME = 1000
+    GAME_OVER_TIME = 2000
 
     def __init__(self):
         self.player = Player()
@@ -80,7 +81,10 @@ class Game:
         for bomb in self.bombs:
             bomb.update(delta)
             if self.player.hits(bomb):
-                bomb.explode(self.fruits, self.bombs)
+                for i in range(self.EFFECT_COUNT_PER_BOMB):
+                    self.effects.append(Effect(bomb.position + pygame.Vector2(random.random(), random.random()), bomb.radius, WHITE, darken=False))
+
+                bomb.explode(self.fruits, self.bombs, self.effects)
                 self.game_over = True
                 self.player.sliced_points.clear()
             br = bomb.get_rect()

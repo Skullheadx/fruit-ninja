@@ -8,14 +8,18 @@ class Effect:
 
     OUTLINE_WIDTH = 1
 
-    def __init__(self, position, radius, color):
+    def __init__(self, position, radius, color, darken=True):
         self.position = pygame.Vector2(position)
         self.velocity = pygame.Vector2(random.random() - 0.5, random.random() - 0.5).normalize() * lerp(
             self.SPEED_RANGE[0], self.SPEED_RANGE[1], random.random())
         self.radius = radius * lerp(self.RADIUS_RANGE[0], self.RADIUS_RANGE[1], random.random())
         self.time = self.LIFE_TIME
-        self.color = DARKEN[color]
-        self.outline_color = color
+        if darken:
+            self.color = DARKEN[color]
+            self.outline_color = color
+        else:
+            self.color = color
+            self.outline_color = DARKEN[color]
 
     def update(self, delta):
         self.position += self.velocity * delta / 1000
