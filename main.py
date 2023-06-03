@@ -11,7 +11,6 @@ while is_running:
     delta = clock.tick(FPS)
     status = scene.update(delta)
     scene.draw(screen)
-    screen.blit(font.render(f"FPS: {clock.get_fps():.2f}", True, BLACK), (0, 0))
     pygame.display.update()
 
     if status == COMMAND_EXIT:
