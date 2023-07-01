@@ -108,10 +108,11 @@ class Bomb(Fruit):
             surf.blit(self.image, self.image.get_rect(
                 topleft=(self.position.x - self.EXPLOSION_RADIUS, self.position.y - self.EXPLOSION_RADIUS)))
         else:
-            # pygame.draw.circle(surf, BLACK, self.position, self.radius)
+            # pygame.draw.circle(surf, WHITE, self.position, self.radius)
             if self.position.y - self.radius <= HEIGHT:
-                rotated_image = pygame.transform.rotate(self.image, self.angle)
-                new_rect = rotated_image.get_rect(center=self.image.get_rect(
-                    topleft=(self.position.x - self.radius, self.position.y - self.radius)).center)
-                self.width, self.height = new_rect.size
-                surf.blit(rotated_image, new_rect.topleft)
+                rotated_image,new_rect = rotate_center(self.image, self.angle, self.position)
+                # rotated_image = pygame.transform.rotate(self.image, self.angle)
+                # new_rect = rotated_image.get_rect(center=self.image.get_rect(
+                #     topleft=(self.position.x - self.radius, self.position.y - self.radius)).center)
+                self.width, self.height = rotated_image.get_size()
+                surf.blit(rotated_image, new_rect)
