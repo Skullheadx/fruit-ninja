@@ -149,11 +149,11 @@ class Game:
             if hit in self.fruits:
                 self.fruits.remove(hit)
 
-        # for layer in self.effects:
-        #     for effect in layer:
-        #         effect_status = effect.update(delta)
-        #         if effect_status:
-        #             layer.remove(effect)
+        for layer in self.effects:
+            for effect in layer:
+                effect_status = effect.update(delta)
+                if effect_status:
+                    layer.remove(effect)
         for combo in self.combo_counters:
             combo_status = combo.update(delta)
             if combo_status:
@@ -203,23 +203,23 @@ class Game:
         # text_surf2 = font.render(f"TIME SINCE LAST HIT {round(self.time_since_last_hit / 1000, 1)}", True, BLACK)
         # surf.blit(text_surf2, (WIDTH - text_surf2.get_width(), text_surf.get_height()))
 
-        # for effect in self.effects[0]:
-        #     effect.draw(surf)
-        # for effect in self.effects[1]:
-        #     effect.draw(surf)
+        for effect in self.effects[0]:
+            effect.draw(surf)
+        for effect in self.effects[1]:
+            effect.draw(surf)
         for bomb in self.bombs:
             bomb.draw(surf)
-        # for effect in self.effects[2]:
-        #     effect.draw(surf)
+        for effect in self.effects[2]:
+            effect.draw(surf)
         for fruit in self.fruits:
             fruit.draw(surf)
-        # for effect in self.effects[3]:
-        #     effect.draw(surf)
+        for effect in self.effects[3]:
+            effect.draw(surf)
         for combo in self.combo_counters:
             combo.draw(surf)
         self.player.draw(surf)
-        # for effect in self.effects[4]:
-        #     effect.draw(surf)
+        for effect in self.effects[4]:
+            effect.draw(surf)
         if self.game_over:
             title = font_large.render("GAME OVER", True, WHITE)
             subtitle = font.render(f"HIGHSCORE {self.highscore}", True, WHITE)
