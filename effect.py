@@ -24,7 +24,7 @@ class BloodEffect:
             pygame.transform.rotate(pygame.transform.scale(frame, (int(self.radius * 2), int(self.radius * 2))),
                                     self.angle) for frame in random.choice(self.blood_frames)]
         if color is None:
-            color = random.choice(COLORS)
+            color = random.choice(EFFECT_COLORS)
         else:
             color = color
         for frame in self.frames:
@@ -67,7 +67,7 @@ class BloodSplatter:
 
 
     color_frames = [dict(), dict()]
-    for c in COLORS:
+    for c in EFFECT_COLORS:
         for i, f in enumerate(blood_frames):
             c_f = f.copy()
             px_array = pygame.PixelArray(c_f)
@@ -90,7 +90,7 @@ class BloodSplatter:
         self.alpha = 255
 
         if color is None:
-            color = random.choice(COLORS)
+            color = random.choice(EFFECT_COLORS)
 
         self.frame = pygame.transform.rotate(
             pygame.transform.scale(self.color_frames[img_index][color], (int(self.radius * 2), int(self.radius * 2))),

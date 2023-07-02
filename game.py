@@ -121,7 +121,7 @@ class Game:
 
         for hit, mouse_direction, mouse_position in hits:
 
-            color = random.choice(COLORS)
+            color = random.choice(EFFECT_COLORS)
             self.effects[0].append(
                 BloodSplatter(hit.position, hit.radius, determine_angle(hit.position, hit.position + mouse_direction),color))
             self.effects[1].append(BloodEffect(hit.position, hit.radius,lighten(color, 0.15)))

@@ -36,10 +36,9 @@ class Fruit:
         self.image = pygame.transform.scale(random.choice(self.HEADS), (self.radius * 2, self.radius * 2))
         self.angle = lerp(0, 360, random.random())
         self.direction = random.choice([-1, 1])
-        # self.angle = 0
-        # self.direction = 0
 
         self.width, self.height = (self.radius * 2, self.radius * 2)
+        self.fruit_txt = Texture.from_surface(renderer, self.image)
 
     def update(self, delta):
         # self.previous_position = self.position.copy() - self.velocity / 1000 * 30
@@ -52,12 +51,6 @@ class Fruit:
         return pygame.Rect(self.position - pygame.Vector2(self.radius / 2, self.radius / 2),
                            pygame.Vector2(self.radius, self.radius))
 
-    def draw(self, surf):
-        # rotated_image = pygame.transform.rotate(self.image, self.angle)
-        # new_rect = rotated_image.get_rect(center=self.image.get_rect(topleft=(self.position.x - self.radius, self.position.y - self.radius)).center)
-        # surf.blit(rotated_image, new_rect.topleft)
-        # pygame.draw.circle(surf, BLACK, self.position, self.radius)
+    def draw(self):
         if self.position.y - self.radius <= HEIGHT:
-            rotated_image, position = rotate_center(self.image, self.angle, self.position)
-            self.width, self.height = rotated_image.get_size()
-            surf.blit(rotated_image, position)
+            self.fruit_txt.draw(None, self.position - pygame.Vector2(self.radius,self.radius), angle=self.angle, origin=None)

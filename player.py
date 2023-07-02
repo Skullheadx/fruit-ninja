@@ -74,27 +74,10 @@ class Player:
                     return True
         return False
 
-    def draw(self, surf):
-        # for line in self.lines:
-        #     pygame.draw.circle(surf, BLUE, line[0], 5)
-        #     # pygame.draw.rect(surf, RED, hitbox)
-        #     pygame.draw.line(surf, GREEN, line[0], line[1], 4)
-        #     mx, my = line[1] - line[0]
-        #     if mx == 0:
-        #         mx = 0.01
-        #     m = my / mx
-        #     c = line[0].y - m * line[0].x
-        #
-        #     x1 = line[0].x
-        #     y1 = m * x1 + c
-        #     x2 = line[1].x
-        #     y2 = m * x2 + c
-        #
-        #     pygame.draw.line(surf, RED, (x1, y1), (x2, y2), 4)
-        #     pygame.draw.rect(surf, RED, hitbox)
-        #     pygame.draw.line(surf, RED, line[0], line[1], 4)
-        # for pos, time in self.sliced_points:
-        #     pygame.draw.circle(surf, RED, pos, 3)
+    def draw(self):
+        renderer.draw_color = LIGHT_GRAY
         if len(self.sliced_points) > 1:
-            pygame.draw.lines(surf, BLACK, False, [a for a, b in self.sliced_points], 6)
-            pygame.draw.lines(surf, LIGHT_GRAY, False, [a for a, b in self.sliced_points], 4)
+            for i in range(len(self.sliced_points) - 1):
+                renderer.draw_line(self.sliced_points[i][0], self.sliced_points[i + 1][0])
+        renderer.draw_line(self.previous_mouse_pos, self.previous_mouse_pos - self.mouse_direction)
+
