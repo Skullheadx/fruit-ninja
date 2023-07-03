@@ -112,8 +112,4 @@ def determine_angle(pos1, pos2):
     if pos1.x == pos2.x:
         pos2.x += 0.0001
     a = math.degrees(math.atan((pos2.y - pos1.y) / (pos2.x - pos1.x)))
-    return -a
-
-
-
-
+    return a

@@ -38,8 +38,9 @@ class Menu:
         self.fruit = Fruit()
         self.fruit.position = pygame.Vector2(WIDTH / 2, HEIGHT * 1.5 / 2.5)
         self.fruit.angle = 0
-        self.fruit.image = pygame.transform.scale(pygame.image.load("assets/fruits/58.png"),
-                                                  (self.fruit.radius * 2, self.fruit.radius * 2))
+        self.fruit.image = pygame.image.load("assets/fruits/58.png")
+        self.fruit.fruit_txt = Texture.from_surface(renderer, self.fruit.image)
+
         # Effects
         self.effects = []
 
@@ -56,7 +57,7 @@ class Menu:
 
         # Rect textures
         self.tutorial_surface_pos = (
-            WIDTH / 2, HEIGHT * 2 / 3 + self.tutorial_surface.get_height() / 2 + self.fruit.get_rect().height + 30)
+            WIDTH / 2, HEIGHT * 2 / 3 + self.tutorial_surface.get_height() / 2 + self.fruit.radius + 30)
 
         self.r1 = Rect(self.tutorial_surface.get_rect(center=self.tutorial_surface_pos).inflate(25, 25), DARK_GRAY, 10)
         self.r2 = Rect(self.tutorial_surface.get_rect(center=self.tutorial_surface_pos).inflate(25, 25), BLACK, 10, 5)
@@ -88,19 +89,20 @@ class Menu:
             hit_status = self.player.hits(self.fruit)  # Check if player hits fruit
             # Check if fruit should split
             if hit_status and SplitEffect.should_split(self.fruit.image, self.fruit.angle, self.fruit.position,
-                                                       self.player.previous_mouse_pos, self.player.mouse_direction):
+                                                       self.player.previous_mouse_pos, self.player.mouse_direction,
+                                                       self.fruit.radius):
                 # Split fruit
                 color = random.choice(EFFECT_COLORS)
                 n1, n2 = SplitEffect.find_normals(self.player.mouse_direction.normalize() * 5)
 
-                self.effects.append(BloodEffect(self.fruit.position, self.fruit.radius, lighten(color, 0.15)))
-                half1, half2, pos1, pos2 = SplitEffect.split_image(self.fruit.image, self.fruit.angle,
-                                                                   self.fruit.position, self.player.previous_mouse_pos,
-                                                                   self.player.mouse_direction)
                 self.effects.append(BloodSplatter(self.fruit.position, self.fruit.radius,
                                                   determine_angle(self.fruit.position,
                                                                   self.fruit.position + self.player.mouse_direction),
                                                   color))
+                self.effects.append(BloodEffect(self.fruit.position, self.fruit.radius, lighten(color, 0.15)))
+                half1, half2, pos1, pos2 = SplitEffect.split_image(self.fruit.image, self.fruit.angle,
+                                                                   self.fruit.position, self.player.previous_mouse_pos,
+                                                                   self.player.mouse_direction, self.fruit.radius)
 
                 self.effects.append(SplitEffect(pos1, half1, pygame.Vector2(0, 0), n1))
                 self.effects.append(SplitEffect(pos2, half2, pygame.Vector2(0, 0), n2))

@@ -1,5 +1,3 @@
-import pygame
-
 from setup import *
 
 
@@ -19,7 +17,6 @@ class Player:
         self.slicing = False
         self.display_image = self.IMAGE.copy()
         self.position = pygame.Vector2(0, 0)
-
 
     def update(self, delta):
         pressed = pygame.mouse.get_pressed()
@@ -46,7 +43,8 @@ class Player:
         self.lines.clear()
         if len(self.sliced_points) > 1:
             for i in range(len(self.sliced_points) - 1):
-                self.lines.append((pygame.Vector2(self.sliced_points[i][0]), pygame.Vector2(self.sliced_points[i + 1][0])))
+                self.lines.append(
+                    (pygame.Vector2(self.sliced_points[i][0]), pygame.Vector2(self.sliced_points[i + 1][0])))
 
         for i, val in enumerate(self.sliced_points):
             pos, time = val
@@ -80,4 +78,3 @@ class Player:
             for i in range(len(self.sliced_points) - 1):
                 renderer.draw_line(self.sliced_points[i][0], self.sliced_points[i + 1][0])
         renderer.draw_line(self.previous_mouse_pos, self.previous_mouse_pos - self.mouse_direction)
-
