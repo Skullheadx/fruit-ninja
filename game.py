@@ -110,7 +110,7 @@ class Game:
     def update(self, delta):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE):
-                if self.score > self.high_score:
+                if self.score >= self.high_score:
                     self.high_score = self.score
                     with open(self.HIGH_SCORE_FILE, "w") as f:
                         f.write(str(self.high_score))
@@ -153,6 +153,7 @@ class Game:
 
         if self.time_since_last_hit < self.COMBO_TIME:
             self.score += self.current_combo
+            self.high_score = max(self.score, self.high_score)
             self.score_surf = font.render(f"SCORE {self.score}", True, WHITE)
             self.score_txt = Texture.from_surface(renderer, self.score_surf)
             self.high_score_surf = font.render(f"BEST {self.high_score}", True, WHITE)
@@ -179,6 +180,7 @@ class Game:
             pygame.mixer.Sound.play(random.choice(self.slash_sounds))
 
             self.score += 1
+            self.high_score = max(self.score, self.high_score)
             self.score_surf = font.render(f"SCORE {self.score}", True, WHITE)
             self.score_txt = Texture.from_surface(renderer, self.score_surf)
             self.high_score_surf = font.render(f"BEST {self.high_score}", True, WHITE)
@@ -241,12 +243,25 @@ class Game:
         pygame.mixer.Sound.play(self.bass_sound_effect)
         self.effects[4].append(FadeOutEffect(fade_time=self.GAME_OVER_TIME, max_alpha=20))
 
-        if self.score > self.high_score:
+        if self.score >= self.high_score:
             self.high_score = self.score
             with open(self.HIGH_SCORE_FILE, "w") as f:
                 f.write(str(self.high_score))
 
+        self.title_surf = font_large.render("GAME OVER", True, WHITE)
+
         self.subtitle_surf = font.render(f"HIGH SCORE {self.high_score}", True, WHITE)
+
+        self.game_over_surf = pygame.Surface((max(self.title_surf.get_width(), self.subtitle_surf.get_width()),
+                                              self.title_surf.get_height() + self.subtitle_surf.get_height()))
+        self.game_over_surf.fill(GRAY)
+        self.game_over_surf.blit(self.title_surf, self.title_surf.get_rect(
+            center=(self.game_over_surf.get_width() / 2, self.title_surf.get_height() / 2)))
+        self.game_over_surf.blit(self.subtitle_surf, self.subtitle_surf.get_rect(
+            center=(
+                self.game_over_surf.get_width() / 2,
+                self.title_surf.get_height() + self.subtitle_surf.get_height() / 2)))
+        self.game_over_txt = Texture.from_surface(renderer, self.game_over_surf)
 
     def draw(self):
         self.BACKGROUND.draw(None, (0, 0))
