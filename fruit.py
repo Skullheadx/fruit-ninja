@@ -50,4 +50,4 @@ class Fruit:
         if self.position.y - self.radius <= HEIGHT:
             self.fruit_txt.draw(None, pygame.Rect(self.position - pygame.Vector2(self.radius, self.radius),
                                                   (self.radius * 2, self.radius * 2)),
-                                angle=-self.angle, origin=(self.radius, self.radius))
+                                angle=self.angle, origin=(self.radius, self.radius))

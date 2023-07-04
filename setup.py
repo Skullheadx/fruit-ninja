@@ -1,5 +1,5 @@
 import pygame
-from pygame._sdl2 import Window, Renderer, Texture
+from pygame._sdl2 import Window, Renderer, Texture, Image
 import random
 import os
 import math
@@ -10,6 +10,7 @@ WIDTH, HEIGHT = pygame.display.Info().current_w, pygame.display.Info().current_h
 display = pygame.display.set_mode((WIDTH, HEIGHT))
 window = Window.from_display_module()
 renderer = Renderer(window)
+pygame.mouse.set_visible(False)
 
 SCALE = pygame.Vector2(WIDTH / 1536, HEIGHT / 864)
 
@@ -92,19 +93,6 @@ def lerp(start, end, weight):
 
 def clamp(value, minimum, maximum):
     return min(maximum, max(minimum, value))
-
-
-@cache
-def rotate(image, angle):
-    return pygame.transform.rotate(image, angle)
-
-
-def rotate_center(image, angle, position):
-    rotated_image = rotate(image, round(angle))
-    new_rect = rotated_image.get_rect(center=image.get_rect(topleft=(position.x - image.get_rect().width / 2,
-                                                                     position.y - image.get_rect().height / 2)).center)
-    return rotated_image, new_rect.topleft
-
 
 def determine_angle(pos1, pos2):
     pos1 = pygame.Vector2(pos1)

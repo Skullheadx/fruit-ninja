@@ -23,3 +23,7 @@ https://pixabay.com/sound-effects/sub-bass-4-secondsssss-6241/
 ## Game background image made with help from https://www.deviantart.com/sadfacerl/art/WoodTexture-748548579
 
 ## Blood Splatter Effect https://bluerosesonata.itch.io/free-blood-splatter-cgsfx
+
+
+Bomb https://www.rawpixel.com/image/6287121/png-public-domain-black
+Knife https://wandering-ghost.itch.io/horror-knifes-sprites

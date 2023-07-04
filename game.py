@@ -8,7 +8,7 @@ from setup import *
 
 
 class Game:
-    BOMB_CHANCE = 0
+    BOMB_CHANCE = 0.1
 
     COMBO_TIME = 250
     GAME_OVER_TIME = 2000
@@ -59,7 +59,7 @@ class Game:
         self.time_since_last_hit = 0
         self.current_combo = 0
 
-        self.wave = 100
+        self.wave = 1
         self.cleared_wave = True
         self.wave_cooldown_timer = 0
 
@@ -83,7 +83,7 @@ class Game:
         self.score_surf = font.render(f"SCORE {self.score}", True, WHITE)
         self.score_txt = Texture.from_surface(renderer, self.score_surf)
 
-        self.combo_surf = font.render(f"COMBO x{self.current_combo}", True, WHITE)
+        self.combo_surf = font.render(f"COMBO x{max(1,self.current_combo)}", True, WHITE)
         self.combo_txt = Texture.from_surface(renderer, self.combo_surf)
 
         self.high_score_surf = font.render(f"BEST {self.high_score}", True, WHITE)
@@ -139,7 +139,7 @@ class Game:
             fruit.update(delta)
 
             hit_status = self.player.hits(fruit)
-            if hit_status and SplitEffect.should_split(fruit.image, fruit.angle, fruit.position,
+            if hit_status and SplitEffect.should_split(fruit.fruit_txt, fruit.angle, fruit.position,
                                                        self.player.previous_mouse_pos,
                                                        self.player.mouse_direction, fruit.radius):
                 hits.append((fruit, self.player.mouse_direction, self.player.previous_mouse_pos))
@@ -159,7 +159,7 @@ class Game:
             self.high_score_txt = Texture.from_surface(renderer, self.high_score_surf)
         else:
             self.current_combo = 0
-            self.combo_surf = font.render(f"COMBO x{self.current_combo}", True, WHITE)
+            self.combo_surf = font.render(f"COMBO x{max(1,self.current_combo)}", True, WHITE)
             self.combo_txt = Texture.from_surface(renderer, self.combo_surf)
 
         for hit, mouse_direction, mouse_position in hits:
@@ -169,7 +169,7 @@ class Game:
                                                  color))
             self.effects[1].append(BloodEffect(hit.position, hit.radius, lighten(color, 0.15)))
 
-            half1, half2, pos1, pos2 = SplitEffect.split_image(hit.image, hit.angle, hit.position, mouse_position,
+            half1, half2, pos1, pos2 = SplitEffect.split_image(hit.fruit_txt, hit.angle, hit.position, mouse_position,
                                                                mouse_direction, hit.radius)
 
             n1, n2 = SplitEffect.find_normals(mouse_direction.normalize() * 5)
@@ -186,7 +186,7 @@ class Game:
 
             if self.time_since_last_hit < self.COMBO_TIME:
                 self.current_combo += 1
-                self.combo_surf = font.render(f"COMBO x{self.current_combo}", True, WHITE)
+                self.combo_surf = font.render(f"COMBO x{max(1,self.current_combo)}", True, WHITE)
                 self.combo_txt = Texture.from_surface(renderer, self.combo_surf)
             if self.current_combo > 1:
                 self.combo_counters.append(ComboCounter(hit.position, self.current_combo + 1))
@@ -218,7 +218,7 @@ class Game:
                 self.bombs.remove(bomb)
                 continue
             if (((not -bomb.radius * 2 < bomb.position.x < WIDTH + bomb.radius * 2) or
-                 bomb.position.y - bomb.radius * 2 > HEIGHT) and bomb.velocity.y > 0):
+                 bomb.position.y - bomb.radius * 2 * bomb.RADIUS_FACTOR > HEIGHT) and bomb.velocity.y > 0):
                 self.bombs.remove(bomb)
 
         if len(self.fruits) == 0 and len(self.bombs) == 0 and not self.game_over:
@@ -269,7 +269,6 @@ class Game:
             effect.draw()
         for combo in self.combo_counters:
             combo.draw()
-        self.player.draw()
         for effect in self.effects[4]:
             effect.draw()
 
@@ -278,3 +277,4 @@ class Game:
             self.r2.draw()
             self.game_over_txt.draw(None, (
                 WIDTH / 2 - self.game_over_txt.width / 2, HEIGHT / 2 - self.game_over_txt.height / 2))
+        self.player.draw()

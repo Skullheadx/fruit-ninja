@@ -88,7 +88,7 @@ class Menu:
         if not self.blacked_out:
             hit_status = self.player.hits(self.fruit)  # Check if player hits fruit
             # Check if fruit should split
-            if hit_status and SplitEffect.should_split(self.fruit.image, self.fruit.angle, self.fruit.position,
+            if hit_status and SplitEffect.should_split(self.fruit.fruit_txt, self.fruit.angle, self.fruit.position,
                                                        self.player.previous_mouse_pos, self.player.mouse_direction,
                                                        self.fruit.radius):
                 # Split fruit
@@ -100,7 +100,7 @@ class Menu:
                                                                   self.fruit.position + self.player.mouse_direction),
                                                   color))
                 self.effects.append(BloodEffect(self.fruit.position, self.fruit.radius, lighten(color, 0.15)))
-                half1, half2, pos1, pos2 = SplitEffect.split_image(self.fruit.image, self.fruit.angle,
+                half1, half2, pos1, pos2 = SplitEffect.split_image(self.fruit.fruit_txt, self.fruit.angle,
                                                                    self.fruit.position, self.player.previous_mouse_pos,
                                                                    self.player.mouse_direction, self.fruit.radius)
 
@@ -143,7 +143,7 @@ class Menu:
         self.controls_txt.draw(None, self.controls_surface.get_rect(bottomleft=(10, HEIGHT - 10)))
         self.credit_txt.draw(None, self.credit_surface.get_rect(bottomright=(WIDTH - 10, HEIGHT - 10)))
 
-        self.player.draw()
 
         for effect in self.effects:
             effect.draw()
+        self.player.draw()

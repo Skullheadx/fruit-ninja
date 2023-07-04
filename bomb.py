@@ -1,5 +1,4 @@
 from fruit import Fruit
-from effect import SplitEffect
 from setup import *
 
 
@@ -11,6 +10,8 @@ class Bomb(Fruit):
 
     BOMB_IMAGE = pygame.image.load("assets/bomb.png").convert_alpha()
     BOMB_TXT = Texture.from_surface(renderer, BOMB_IMAGE)
+
+    RADIUS_FACTOR = 1.75
 
     EXPLOSIONS = [
         [
@@ -57,6 +58,10 @@ class Bomb(Fruit):
 
         self.explosion_txt = random.choice(self.EXPLOSIONS)
 
+        circle = pygame.Surface((self.radius * 2, self.radius * 2), pygame.SRCALPHA)
+        pygame.draw.circle(circle, (255, 255, 255, 255), (self.radius, self.radius), self.radius)
+        self.circle = Texture.from_surface(renderer, circle)
+
     def update(self, delta):
         super().update(delta)
         if self.exploded:
@@ -93,7 +98,11 @@ class Bomb(Fruit):
                                                                             self.EXPLOSION_RADIUS * 2,
                                                                             self.EXPLOSION_RADIUS * 2))
         else:
-            if self.position.y - self.radius <= HEIGHT:
-                self.BOMB_TXT.draw(None, pygame.Rect(self.position.x - self.radius, self.position.y - self.radius,
-                                                     self.radius * 2, self.radius * 2), self.angle,
-                                   (self.radius, self.radius))
+            # self.circle.draw(None, pygame.Rect(self.position.x - self.RADIUS, self.position.y - self.RADIUS,
+            #                                    self.RADIUS * 2, self.RADIUS * 2))
+
+            self.BOMB_TXT.draw(None, pygame.Rect(self.position.x - self.radius * self.RADIUS_FACTOR,
+                                                 self.position.y - self.radius * self.RADIUS_FACTOR,
+                                                 self.radius * 2 * self.RADIUS_FACTOR,
+                                                 self.radius * 2 * self.RADIUS_FACTOR),
+                               self.angle, (self.radius * self.RADIUS_FACTOR, self.radius * self.RADIUS_FACTOR))

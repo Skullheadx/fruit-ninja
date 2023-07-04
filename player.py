@@ -1,11 +1,15 @@
+import pygame.mouse
+
 from setup import *
 
 
 class Player:
     LIFE_TIME = 100
-    INFLATE_SCALE = 20
 
-    IMAGE = pygame.image.load("assets/effects/sword_slashes/White_Slash_Thin/File2.png").convert_alpha()
+    image = pygame.image.load("assets/knife.png").convert_alpha()
+    txt = Texture.from_surface(renderer, image)
+
+    SIZE = pygame.Vector2(50* SCALE, 50* SCALE)
 
     def __init__(self):
         self.sliced_points = []
@@ -13,10 +17,9 @@ class Player:
 
         self.previous_mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
         self.mouse_direction = pygame.Vector2(0, 0)
-        self.angle = 0
         self.slicing = False
-        self.display_image = self.IMAGE.copy()
-        self.position = pygame.Vector2(0, 0)
+
+        self.angle = 0
 
     def update(self, delta):
         pressed = pygame.mouse.get_pressed()
@@ -25,20 +28,12 @@ class Player:
             self.sliced_points.append((pygame.Vector2(pos), pygame.time.get_ticks()))
             self.mouse_direction = pygame.Vector2(pos) - self.previous_mouse_pos
             self.previous_mouse_pos = pygame.Vector2(pos)
-            if self.mouse_direction.x == 0:
-                x_direction = self.mouse_direction.x + 0.0001
-            else:
-                x_direction = self.mouse_direction.x
-            self.angle = math.degrees(math.atan(self.mouse_direction.y / x_direction))
-            self.display_image, self.position = rotate_center(self.IMAGE, self.angle,
-                                                              pygame.Vector2(pos) + pygame.Vector2(
-                                                                  self.IMAGE.get_width() / 2, 0))
             self.slicing = True
         else:
             self.mouse_direction = pygame.Vector2(0, 0)
             self.previous_mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
-            self.angle = 0
             self.slicing = False
+
 
         self.lines.clear()
         if len(self.sliced_points) > 1:
@@ -78,3 +73,5 @@ class Player:
             for i in range(len(self.sliced_points) - 1):
                 renderer.draw_line(self.sliced_points[i][0], self.sliced_points[i + 1][0])
         renderer.draw_line(self.previous_mouse_pos, self.previous_mouse_pos - self.mouse_direction)
+        self.txt.draw(None, pygame.Rect(pygame.mouse.get_pos(), self.SIZE))
+

@@ -119,11 +119,12 @@ class SplitEffect:
                                                               random.random()) / 100 + pygame.Vector2(normal_velocity)
         self.acceleration = pygame.Vector2(0, self.gravity)
 
-        self.angle = 0
+        self.angle = frame.angle
         self.direction = random.choice([-1, 1])
 
-        self.frame = Texture.from_surface(renderer, frame)
-        self.width, self.height = self.frame.width, self.frame.height
+
+        self.frame = frame
+        self.width, self.height = self.frame.get_rect().width, self.frame.get_rect().height
 
     def update(self, delta):
         self.velocity += self.acceleration * delta / 1000
@@ -135,83 +136,95 @@ class SplitEffect:
             return True
 
     def draw(self):
+        self.frame.angle = self.angle
+        # print(self.position)
         self.frame.draw(None, pygame.Rect(self.position.x - self.width / 2,
                                           self.position.y - self.height / 2,
-                                          self.width, self.height),
-                        self.angle, origin=(self.width / 2, self.height / 2))
-        self.width, self.height = self.frame.width, self.frame.height
+                                          self.width, self.height))
+        self.width, self.height = self.frame.get_rect().width, self.frame.get_rect().height
 
     @staticmethod
     def find_normals(v):
         return pygame.Vector2(-v.y, v.x), pygame.Vector2(v.y, -v.x)
 
     @staticmethod
-    def should_split(image, angle, image_position, mouse_position, mouse_direction, radius):
-        img, img_pos = rotate_center(pygame.transform.scale(image.copy(), (radius * 2, radius * 2)), angle,
-                                     image_position)
-        img_pos += pygame.Vector2(img.get_size()) / 2
-        if mouse_direction.x == 0:
-            mouse_direction.x += 0.0001
-        a = math.degrees(math.atan(mouse_direction.y / mouse_direction.x))
-        img = rotate_center(img, a, pygame.Vector2(0, 0))[0]
-
-        top_left = pygame.Vector2(image_position) - pygame.Vector2(img.get_width() / 2, img.get_height() / 2)
-        rot_center = pygame.Vector2(image_position) - top_left
-        mp = mouse_position - top_left
-
-        t1 = (- mp.x) / mouse_direction.x
-        p1 = mp + t1 * mouse_direction
-
-        p3 = (p1 - rot_center).rotate(-a) + rot_center
-
-        MIN_SPLIT = 0.25
-        slice_percent = clamp(p3.y, 0, img.get_height()) / img.get_height()
-        if MIN_SPLIT < slice_percent < 1 - MIN_SPLIT:
-            return True
-        return False
-
-    @staticmethod
-    def split_image(image, angle, image_position, mouse_position, mouse_direction, radius):
-        img, img_pos = rotate_center(pygame.transform.scale(image.copy(), (radius * 2, radius * 2)), angle,
-                                     image_position)
-
-
-        img_pos += pygame.Vector2(img.get_size()) / 2
+    def should_split(texture, angle, image_position, mouse_position, mouse_direction, radius):
         if mouse_direction.x == 0:
             mouse_direction.x += 0.0001
 
         a = math.degrees(math.atan(mouse_direction.y / mouse_direction.x))
-        img = rotate_center(img, a, pygame.Vector2(0, 0))[0]
+        diagonal = math.sqrt(2 * ((radius * 2) ** 2))
+        txt = Texture(renderer, (diagonal, diagonal), target=True)
+        txt.blend_mode = pygame.BLEND_ADD
+        renderer.target = txt
+        texture.draw(None, pygame.Rect((diagonal - radius * 2) / 2, (diagonal - radius * 2) / 2, radius * 2,
+                                       radius * 2), angle - a, origin=(radius, radius))
+        renderer.target = None
 
-        top_left = pygame.Vector2(img_pos) - pygame.Vector2(img.get_width() / 2, img.get_height() / 2)
-        rot_center = pygame.Vector2(img_pos) - top_left
+        img_size = pygame.Vector2(diagonal, diagonal)
+        center = img_size / 2
 
         # finding end and start points of the splitting line
         # [x,y] = mouse_position + t * mouse_direction # vector equation
         # x = mouse_position.x + t * mouse_direction.x
         # y = mouse_position.y + t * mouse_direction.y
 
-        mp = mouse_position - top_left
+        mp = mouse_position - image_position + center
 
         t1 = (- mp.x) / mouse_direction.x
         p1 = mp + t1 * mouse_direction
 
-        p3 = (p1 - rot_center).rotate(-a) + rot_center
+        p3 = (p1 - center).rotate(-a) + center
 
-        half1 = img.subsurface(pygame.Rect(0, 0, img.get_width(), clamp(p3.y, 0, img.get_height())))
-        half2 = img.subsurface(pygame.Rect(0, clamp(p3.y, 0, img.get_height()), img.get_width(),
-                                           clamp(img.get_height() - p3.y, 0, img.get_height())))
+        MIN_SPLIT = 0.25
+        slice_percent = clamp(p3.y, 0, img_size.y) / img_size.y
+        if MIN_SPLIT < slice_percent < 1 - MIN_SPLIT:
+            return True
+        return False
 
-        p5 = half1.get_rect().center - rot_center
-        pos1 = p5.rotate(a) + img_pos
+    @staticmethod
+    def split_image(texture, angle, image_position, mouse_position, mouse_direction, radius):
+        if mouse_direction.x == 0:
+            mouse_direction.x += 0.0001
 
-        p6 = half2.get_rect().center - rot_center + pygame.Vector2(0, clamp(p3.y, 0, img.get_height()))
-        pos2 = p6.rotate(a) + img_pos
+        a = math.degrees(math.atan(mouse_direction.y / mouse_direction.x))
+        diagonal = math.sqrt(2 * ((radius * 2) ** 2))
+        txt = Texture(renderer, (diagonal, diagonal), target=True)
+        txt.blend_mode = pygame.BLEND_ADD
+        renderer.target = txt
+        texture.draw(None, pygame.Rect((diagonal - radius * 2) / 2, (diagonal - radius * 2) / 2, radius * 2,
+                                       radius * 2), angle - a, origin=(radius, radius))
+        renderer.target = None
 
-        r_half1 = pygame.transform.rotate(half1, -a)
-        r_half2 = pygame.transform.rotate(half2, -a)
+        img_size = pygame.Vector2(diagonal, diagonal)
+        center = img_size / 2
 
-        return r_half1, r_half2, pos1, pos2
+        # finding end and start points of the splitting line
+        # [x,y] = mouse_position + t * mouse_direction # vector equation
+        # x = mouse_position.x + t * mouse_direction.x
+        # y = mouse_position.y + t * mouse_direction.y
+
+        mp = mouse_position - image_position + center
+
+        t1 = (- mp.x) / mouse_direction.x
+        p1 = mp + t1 * mouse_direction
+
+        p3 = (p1 - center).rotate(-a) + center
+
+        half1 = Image(txt, pygame.Rect(0, 0, img_size.x, clamp(p3.y, 0, img_size.y)))
+        half2 = Image(txt,
+                      pygame.Rect(0, clamp(p3.y, 0, img_size.y), img_size.x, clamp(img_size.y - p3.y, 0, img_size.y)))
+
+        p5 = half1.get_rect().center - center
+        pos1 = p5.rotate(a) + image_position
+
+        p6 = half2.get_rect().center - center
+        pos2 = p6.rotate(a) + image_position
+
+        half1.angle = a
+        half2.angle = a
+
+        return half1, half2, pos1, pos2
 
 
 class SlashEffect:
