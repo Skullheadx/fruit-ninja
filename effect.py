@@ -228,7 +228,7 @@ class SplitEffect:
 
 
 class SlashEffect:
-    SLASH_SURFS = [pygame.image.load(f"assets/effects/sword_slashes/White_Slash_Thin/File{i}.png").convert_alpha()
+    SLASH_SURFS = [pygame.image.load(f"assets/effects/sword_slashes/File{i}.png").convert_alpha()
                    for i in range(1, 7)]
     LIFETIME = 600
 
