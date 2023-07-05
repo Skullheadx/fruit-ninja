@@ -1,0 +1,14 @@
+
+*.xml
+*.toc
+*.zip
+*.pyc
+*.pyc
+*.pkg
+*.manifest
+*.pyz
+*.html
+*.spec
+build/
+dist/
+.idea/
