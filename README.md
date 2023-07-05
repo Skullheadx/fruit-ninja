@@ -26,4 +26,7 @@ https://pixabay.com/sound-effects/sub-bass-4-secondsssss-6241/
 
 
 Bomb https://www.rawpixel.com/image/6287121/png-public-domain-black
+
 Knife https://wandering-ghost.itch.io/horror-knifes-sprites
+
+thanks to chuunkyz for teaching me how to use _sdl2 in pygame!
