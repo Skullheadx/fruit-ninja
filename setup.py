@@ -7,7 +7,7 @@ from functools import cache
 
 pygame.init()
 WIDTH, HEIGHT = pygame.display.Info().current_w, pygame.display.Info().current_h
-display = pygame.display.set_mode((WIDTH, HEIGHT))
+display = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 window = Window.from_display_module()
 renderer = Renderer(window)
 pygame.mouse.set_visible(False)
