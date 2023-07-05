@@ -19,9 +19,9 @@ class Menu:
 
     # Slash sound effects
     slash_sounds = [
-        pygame.mixer.Sound(f"assets/sounds/Swishes/long-medium-swish-44324.wav"),
-        pygame.mixer.Sound(f"assets/sounds/Swishes/swing-6045.wav"),
-        pygame.mixer.Sound(f"assets/sounds/Swishes/swish-sound-94707.wav"),
+        pygame.mixer.Sound(f"assets/sounds/Swishes/long-medium-swish-44324.ogg"),
+        pygame.mixer.Sound(f"assets/sounds/Swishes/swing-6045.ogg"),
+        pygame.mixer.Sound(f"assets/sounds/Swishes/swish-sound-94707.ogg"),
     ]
 
     def __init__(self):

@@ -43,8 +43,8 @@ class Bomb(Fruit):
     EXPLOSION_TIME = 500
 
     explosion_sound_effects = [
-        pygame.mixer.Sound("assets/sounds/hq-explosion-6288.wav"),
-        pygame.mixer.Sound("assets/sounds/medium-explosion-40472.wav"),
+        pygame.mixer.Sound("assets/sounds/hq-explosion-6288.ogg"),
+        pygame.mixer.Sound("assets/sounds/medium-explosion-40472.ogg"),
     ]
 
     def __init__(self):

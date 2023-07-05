@@ -29,11 +29,11 @@ class Game:
                 BACKGROUND.blit(background_tile, (x * WIDTH / tile_cols, y * HEIGHT / tile_rows))
     BACKGROUND = Texture.from_surface(renderer, BACKGROUND)
 
-    bass_sound_effect = pygame.mixer.Sound("assets/sounds/sub-bass-4-secondsssss-6241.wav")
+    bass_sound_effect = pygame.mixer.Sound("assets/sounds/sub-bass-4-secondsssss-6241.ogg")
     bass_sound_effect.set_volume(0.1)
-    slash_sounds = [pygame.mixer.Sound(f"assets/sounds/Swishes/long-medium-swish-44324.wav"),
-                    pygame.mixer.Sound(f"assets/sounds/Swishes/swing-6045.wav"),
-                    pygame.mixer.Sound(f"assets/sounds/Swishes/swish-sound-94707.wav"),
+    slash_sounds = [pygame.mixer.Sound(f"assets/sounds/Swishes/long-medium-swish-44324.ogg"),
+                    pygame.mixer.Sound(f"assets/sounds/Swishes/swing-6045.ogg"),
+                    pygame.mixer.Sound(f"assets/sounds/Swishes/swish-sound-94707.ogg"),
                     ]
 
     HIGH_SCORE_FILE = "high_score.txt"

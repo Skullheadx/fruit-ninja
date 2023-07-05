@@ -1,13 +1,13 @@
+import asyncio
 import pygame
 from pygame._sdl2 import Window, Renderer, Texture, Image
 import random
 import os
 import math
-from functools import cache
 
 pygame.init()
 WIDTH, HEIGHT = pygame.display.Info().current_w, pygame.display.Info().current_h
-display = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
+display = pygame.display.set_mode((WIDTH, HEIGHT))
 window = Window.from_display_module()
 renderer = Renderer(window)
 pygame.mouse.set_visible(False)
@@ -15,7 +15,7 @@ pygame.mouse.set_visible(False)
 SCALE = pygame.Vector2(WIDTH / 1536, HEIGHT / 864)
 
 pygame.display.set_caption("Fruit Shinobi")
-icon = pygame.image.load("assets/logo.ico").convert()
+icon = pygame.image.load("assets/logo.png").convert()
 pygame.display.set_icon(icon)
 
 # fonts
