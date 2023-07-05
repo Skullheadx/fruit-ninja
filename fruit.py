@@ -2,18 +2,18 @@ from setup import *
 
 
 class Fruit:
-    RADIUS_RANGE = [35, 65]  # [25, 50]
+    RADIUS_RANGE = [60 * SCALE.x, 100 * SCALE.x]
 
     HORIZONTAL_SPAWN_RANGE = [max(RADIUS_RANGE), WIDTH - max(RADIUS_RANGE)]
     VERTICAL_SPAWN_RANGE = [HEIGHT + max(RADIUS_RANGE), HEIGHT * 2 + max(RADIUS_RANGE)]
 
-    VERTICAL_TARGET_RANGE = [max(RADIUS_RANGE), HEIGHT * 4 / 5]
-    HORIZONTAL_TARGET_RANGE = [WIDTH / 6, WIDTH * 5 / 6]
+    VERTICAL_TARGET_RANGE = [max(RADIUS_RANGE), HEIGHT * 3.5 / 5]
+    HORIZONTAL_TARGET_RANGE = [WIDTH / 5.5, WIDTH * 4.5 / 5.5]
 
-    GRAVITY = 275
-
-    COLORS = [RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE]
-    OUTLINE_WIDTH = 3
+    GRAVITY = 275 * SCALE.y
+    FRUITS = [
+        pygame.image.load(f"assets/fruits/{file}").convert_alpha() for file in os.listdir('assets/fruits/')
+    ]
 
     def __init__(self):
         self.radius = lerp(self.RADIUS_RANGE[0], self.RADIUS_RANGE[1], random.random())
@@ -24,30 +24,30 @@ class Fruit:
         self.position = pygame.Vector2(
             lerp(self.HORIZONTAL_SPAWN_RANGE[0], self.HORIZONTAL_SPAWN_RANGE[1], random.random()),
             lerp(self.VERTICAL_SPAWN_RANGE[0], self.VERTICAL_SPAWN_RANGE[1], random.random()))
-        self.acceleration = pygame.Vector2(0, self.GRAVITY)
 
-        # self.previous_position = self.position
+        self.acceleration = pygame.Vector2(0, self.GRAVITY)
 
         dy = self.target.y - self.position.y
         dx = self.target.x - self.position.x
         t = (-2 / self.GRAVITY * dy) ** 0.5
         self.velocity = pygame.Vector2(dx / t, -(-2 * self.GRAVITY * dy) ** 0.5)
 
-        self.color = random.choice(self.COLORS)
+        self.angle = lerp(0, 360, random.random())
+        self.direction = random.choice([-1, 1])
+
+        self.width, self.height = (self.radius * 2, self.radius * 2)
+
+        self.image = random.choice(self.FRUITS)
+        self.fruit_txt = Texture.from_surface(renderer, self.image)
 
     def update(self, delta):
-        # self.previous_position = self.position.copy() - self.velocity / 1000 * 30
         self.velocity += self.acceleration * delta / 1000
         self.position += self.velocity * delta / 1000
 
-    def get_rect(self):
-        return pygame.Rect(self.position - pygame.Vector2(self.radius / 2, self.radius / 2),
-                           pygame.Vector2(self.radius, self.radius))
+        self.angle += 360 * delta / 1000 / 10 * self.direction
 
-    def draw(self, surf):
-        # pygame.draw.circle(surf, DARK_GRAY, self.previous_position, self.radius)
-
-        pygame.draw.circle(surf, self.color, self.position, self.radius)
-        pygame.draw.circle(surf, DARKEN[self.color], self.position, self.radius, self.OUTLINE_WIDTH)
-
-        # pygame.draw.circle(surf, BLACK, self.target, 10)
+    def draw(self):
+        if self.position.y - self.radius <= HEIGHT:
+            self.fruit_txt.draw(None, pygame.Rect(self.position - pygame.Vector2(self.radius, self.radius),
+                                                  (self.radius * 2, self.radius * 2)),
+                                angle=self.angle, origin=(self.radius, self.radius))
