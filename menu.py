@@ -11,7 +11,7 @@ class Menu:
     tile_cols = 4
     tile_rows = 4
     background_tile = pygame.transform.scale(pygame.image.load("assets/background.png"),
-                                             (WIDTH / tile_cols, HEIGHT / tile_rows)).convert()
+                                             ((WIDTH+12) / tile_cols, (HEIGHT+12) / tile_rows)).convert()
     for x in range(tile_cols):
         for y in range(tile_rows):
             background.blit(background_tile, (x * WIDTH / tile_cols, y * HEIGHT / tile_rows))

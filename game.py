@@ -17,10 +17,9 @@ class Game:
     BACKGROUND = pygame.Surface((WIDTH, HEIGHT))
     tile_cols = 4
     tile_rows = 4
-    background_tile = pygame.transform.scale(pygame.image.load("assets/background.png"),
-                                             (WIDTH / tile_cols, HEIGHT / tile_rows)).convert()
+    background_tile = pygame.transform.scale(pygame.image.load("assets/background.png"),((WIDTH+12) / tile_cols, HEIGHT / tile_rows)).convert()
     dark_background_tile = pygame.transform.scale(pygame.image.load("assets/dark_background.png"),
-                                                  (WIDTH / tile_cols, HEIGHT / tile_rows)).convert()
+                                                  ((WIDTH+12) / tile_cols, HEIGHT / tile_rows)).convert()
     for x in range(tile_cols):
         for y in range(tile_rows):
             if y == 0:
